@@ -9,8 +9,11 @@ FROM --platform=linux/x86_64 alpine:3.19
 RUN apk add --no-cache bash nano
 RUN addgroup ts && adduser -G ts -D -h /ts ts
 WORKDIR /ts
+RUN mkdir /ts/.tenderseed
+RUN chmod 777 /ts/.tenderseed
 COPY --from=go-builder /code/tinyseed/bin/tenderseed /usr/local/bin/tenderseed
 #COPY --from=go-builder /usr/share/zoneinfo/Asia/Almaty /etc/localtime
 #RUN echo "Asia/Almaty" >  /etc/timezone
+VOLUME /ts/.tenderseed
 USER ts
 CMD ["tenderseed"]
